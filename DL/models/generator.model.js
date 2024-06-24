@@ -19,10 +19,8 @@ const generatorSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-    },
-    generatorDataId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'gen_demo_1',
+        enum: ['available', 'repair', 'off'],
+        default: 'available'
     },
     insights: {
         type: Array,
@@ -31,9 +29,8 @@ const generatorSchema = new mongoose.Schema({
         type: Boolean,
         default: true
     }
-
 })
 
+const generatorModel = mongoose.model('generator', generatorSchema)
 
-
-module.exports = generatorSchema
+module.exports = generatorModel

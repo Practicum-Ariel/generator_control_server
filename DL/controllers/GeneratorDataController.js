@@ -1,31 +1,51 @@
 const mongoose = require('mongoose');
-const generatorSchema = require('../models/generator.model');
+const generatorSchema = require('../models/generatorData.model');
+const generatorController = require('./GeneratorController')
 
 class GeneratorDataController {
 
     #model;
+    #genDataName
 
     constructor(genId) {
         this.genId = genId
+        // todo: genId >> generatorDataTableName
     }
 
     async config(genId) {
-        const m = await getModelOfGenID(genId)
-        this.#model = m
+        this.genDataName = await generatorDataTableName(genId)
+        const currentModel = await getModelOfGenID(this.genDataName)
+        this.#model = currentModel
     }
 
     create(data) {
-        console.log("create: ", data)
         return this.#model.create(data)
     }
 
-    read() {
-        console.log("read:", { m: this.#model });
-        return this.#model.findOne({ name: this.genId })
+    read(filter, proj, limit = 100) {
+        return this.#model.find(filter, proj).limit(limit)
     }
+
+    readOne(filter, select) {
+        return this.#model.findOne(filter, select)
+    }
+
+    readLast(filter, proj, limit = 100) {
+        return this.#model.findOne(filter, proj).sort({ _id: -1 })
+    }
+
 }
 
-async function getModelOfGenID(genId) {
-    return mongoose.models[genId] || new mongoose.model(genId, generatorSchema)
+
+async function getModelOfGenID(genDataName) {
+    return mongoose.models[genDataName] || new mongoose.model(genDataName, generatorSchema)
 }
-module.exports = GeneratorDataController 
+
+async function generatorDataTableName(genId) {
+    const res = await generatorController.readOne({ _id: genId })
+    return res.dataTableName
+}
+
+module.exports = GeneratorDataController
+
+

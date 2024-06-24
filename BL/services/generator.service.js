@@ -15,7 +15,16 @@ async function addGeneratorData(data) {
     const genController = new GeneratorDataController(data.name)
     await genController.config(data.name)
     const result = await genController.create(data)
+    //const result2 = generator controller. add generator
     return result
 }
 
-module.exports = { getGeneratorData, addGeneratorData }
+async function deleteGeneratorData(genId) {
+    console.log("service - delete generator data, genId:", genId);
+    const genController = new GeneratorDataController(genId)
+    await genController.config(genId)
+    const result = await genController.del()
+    return result
+}
+
+module.exports = { getGeneratorData, addGeneratorData, deleteGeneratorData }

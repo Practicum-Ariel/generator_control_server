@@ -1,6 +1,7 @@
 
 const generatorDataController = require('../../DL/controllers/generatorData.controller')
 
+// only example for tavor
 async function getGeneratorData(genId) {
     console.log("service - get generator data, gen_id: ", genId);
     let genController = await generatorDataController(genId)

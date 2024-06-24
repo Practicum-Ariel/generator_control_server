@@ -49,7 +49,6 @@ module.exports = async (genId) => {
     const genController = new GeneratorDataController(genId)
     await genController.config(genId)
     return genController
-
 }
 
 

@@ -2,7 +2,7 @@
 const DAY_MS = 1000 * 60 * 60 * 24;
 const getController = require('../../DL/controllers/generatorData.controller')
 
-async function getData({ generator_id, time, sensor_type, anomalya = {} }) {
+async function getData( generator_id, time, sensor_type, anomalya = {} ) {
     switch (time) {
         case 'day':
             time = getDayBefore()
@@ -30,18 +30,20 @@ async function getData({ generator_id, time, sensor_type, anomalya = {} }) {
             throw { code: 500, msg: ("Sensors not good") };
     }
     let select = sensor_type + " date"
-    let filter = { date:{$gt:''} }
-    filter = {scenarioId:'168.temperature.normal'}//getSenIdOfEti() // delete at the end
+    filter = {date:{$gt:'2024-05-23T21:00:00.000+00:00'}} //{$gt:'',&lt:''}
+    
+    console.log("gen:", generator_id);
+    //filter = {scenarioId:'168.temperature.normal'}//getSenIdOfEti() // delete at the end
     const genDataController = await getController(generator_id);
     return await genDataController.read(filter, select);    
 }   
 
 
-const getDayBefore = () => new date() - (DAY_MS)// return new Date()
+const getDayBefore = () => new Date() - (DAY_MS) // return new Date()
 
-const getWeekBefore = () => new date() - (DAY_MS*7)
+const getWeekBefore = () => new Date() - (DAY_MS*7)
 
-const getMonthBefore = () => new date() - (DAY_MS*30)
+const getMonthBefore = () => new Date() - (DAY_MS*30)
 
 const getPastDayDates = () => {
     const dates = [];

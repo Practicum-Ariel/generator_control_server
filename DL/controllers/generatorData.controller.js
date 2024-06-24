@@ -21,12 +21,12 @@ class GeneratorDataController {
         return this.#model.create(data)
     }
 
-    async read(filter, proj, limit = 100) {
+    async read(filter, proj, limit = 1000) {
         return await this.#model.find(filter, proj).limit(limit)
     }
 
-    readOne(filter, select) {
-        return this.#model.findOne(filter, select)
+    async readOne(filter, select) {
+        return await this.#model.findOne(filter, select)
     }
 
     readLast(filter, proj, limit = 100) {

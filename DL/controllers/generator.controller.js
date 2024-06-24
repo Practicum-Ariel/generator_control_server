@@ -8,9 +8,10 @@ async function read(filter, Populate) {
     return await generatorController.find(filter)
 }
 async function readOne(filter, populate) {
-    let data = await generatorController.findOne(filter)
-    if (populate) data = await data.populate({ path: 'sensorsIds' })
-    return data.toObject()
+    let data = generatorController.findOne(filter)
+    if (populate) data = data.populate({ path: 'sensorsIds' })
+    data = await data.exec()
+    return data?.toObject()
 }
 async function update(id, data) {
     return await generatorController.findByIdAndUpdate(id, data)

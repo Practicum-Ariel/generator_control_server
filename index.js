@@ -16,6 +16,7 @@ app.use(cors());
 app.use('/api', mainRouter);
 
 // MongoDB connection
+require('./DL/connect').connect()
 
 
 app.listen(PORT, () => {

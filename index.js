@@ -1,10 +1,13 @@
+require('dotenv').config()
+
+// MongoDB connection
+require('./DL/connect').connect()
+
 const express = require('express');
 const mainRouter = require('./routes');
 const PORT = process.env.PORT || 3000;
-const dotenv = require('dotenv')
 const cors = require('cors')
 
-dotenv.config()
 
 const app = express();
 
@@ -15,7 +18,6 @@ app.use(cors());
 // Routes
 app.use('/api', mainRouter);
 
-// MongoDB connection
 
 
 app.listen(PORT, () => {

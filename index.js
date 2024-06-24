@@ -2,10 +2,11 @@ const express = require('express');
 const mainRouter = require('./routes');
 const PORT = process.env.PORT || 3000;
 const dotenv = require('dotenv')
-const cors = require('cors')
+const cors = require('cors');
+const { connect } = require('./DL/connect');
 
 dotenv.config()
-
+connect()
 const app = express();
 
 // Middleware
@@ -14,6 +15,9 @@ app.use(cors());
 
 // Routes
 app.use('/api', mainRouter);
+
+const technicianRouter = require('./routes/technician.router')
+app.use('/technician', technicianRouter)
 
 // MongoDB connection
 

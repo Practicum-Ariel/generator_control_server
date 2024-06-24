@@ -37,18 +37,11 @@ async function getData({ generator_id, time, sensor_type, anomalya = {} }) {
 }   
 
 
-const getDayBefore = () => {return (new date() - (DAY_MS))}// return new Date()
+const getDayBefore = () => new date() - (DAY_MS)// return new Date()
 
-const getWeekBefore = () => {
-    const currentDate = new date();
-    const myDate = currentDate - (DAY_MS * 7)
-    return [currentDate, myDate]; //new Date(myDate)
-}
-const getMonthBefore = () => {
-    const currentDate = new date();
-    const myDate = currentDate - (DAY_MS * 30)
-    return [currentDate, myDate]; //new Date(myDate)
-}
+const getWeekBefore = () => new date() - (DAY_MS*7)
+
+const getMonthBefore = () => new date() - (DAY_MS*30)
 
 const getPastDayDates = () => {
     const dates = [];

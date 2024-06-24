@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const generatorSchema = require('../models/generatorData.model');
-const generatorController = require('./GeneratorController')
+const generatorController = require('./generator.controller')
 
 class GeneratorDataController {
 
@@ -9,7 +9,6 @@ class GeneratorDataController {
 
     constructor(genId) {
         this.genId = genId
-        // todo: genId >> generatorDataTableName
     }
 
     async config(genId) {
@@ -46,6 +45,11 @@ async function generatorDataTableName(genId) {
     return res.dataTableName
 }
 
-module.exports = GeneratorDataController
+module.exports = async (genId) => {
+    const genController = new GeneratorDataController(genId)
+    await genController.config(genId)
+    return genController
+
+}
 
 

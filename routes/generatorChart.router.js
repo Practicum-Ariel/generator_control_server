@@ -11,12 +11,12 @@ need to get json like that in req.query:
     anomalya: {} => not have to - option
 */
 
-router.get('/by-gen', async(req,res) =>{
+router.get('/:genId/data/', async(req,res) =>{
     try{
         console.log("first")
-        let {generator_id, time, sensor_type, anomalya} = req.query;
-        if (!anomalya) anomalya = {}
-        let data = await chartService(generator_id,time,sensor_type, anomalya)
+        const {time, sensor_type, anomalya} = req.query
+        const {generator_id} = req.params
+        const data = await chartService(generator_id,time,sensor_type, anomalya)
         res.send(data);
     }
     catch(error){

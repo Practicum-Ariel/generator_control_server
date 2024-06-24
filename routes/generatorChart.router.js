@@ -15,8 +15,10 @@ router.get('/:genId/data/', async(req,res) =>{
     try{
         console.log("first")
         const {time, sensor_type, anomalya} = req.query
+        console.log(req.query, "query");
         const {generator_id} = req.params
-        const data = await chartService(generator_id,time,sensor_type, anomalya)
+        console.log("params", req.params)
+        const data = await chartService.getData(generator_id,time,sensor_type, anomalya)
         res.send(data);
     }
     catch(error){

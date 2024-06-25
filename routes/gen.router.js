@@ -16,7 +16,7 @@ router.post("/", async (req, res) => {
     try {
         const result = await genService.addGenerator(req.body)
         if(result)res.send(result)
-        throw { code: 404, msg: 'not found' }
+        else throw { code: 404, msg: 'not found' }
         //else res.status(400).send({"message": "some error happend"})
     } catch (error) {
         console.log('error test', error);
@@ -31,7 +31,7 @@ router.put("/edit/:name", async (req, res) => {
     try {
         const result = await genService.updateGenerator(req.params.name, req.body)
         if(result)res.send(result)
-        throw { code: 404, msg: 'not found' }    
+        else throw { code: 404, msg: 'not found' }    
         //else res.status(400).send({"message": "some error happend"})
     } catch (error) {
         console.log('error test', error);
@@ -45,7 +45,7 @@ router.get('/get-gen/:name', async (req, res) => {
     try {
         const result = await genService.getGenerator(req.params.name)
         if(result)res.send(result)
-        throw { code: 404, msg: 'not found' }   
+        else throw { code: 404, msg: 'not found' }   
         //else res.status(400).send({"message": "some error happend"})
     } catch (error) {
         console.log('error test', error);
@@ -65,7 +65,7 @@ router.get('/get-gen/', async (req, res) => {
         const result = await genService.getGenerators(limit)
         console.log("router result:", result);
         if(result)res.send(result)
-        throw { code: 404, msg: 'not found' }   
+        else throw { code: 404, msg: 'not found' }   
         //else res.status(400).send({"message": "some error happend"})
     } catch (error) {
         //res.send(error.message)
@@ -79,7 +79,7 @@ router.delete('/del-gen/:name', async (req, res) => {
     try {
         const result = genService.delGenerator(req.params.name)
         if(result)res.send(result)
-        throw { code: 404, msg: 'not found' }
+        else throw { code: 404, msg: 'not found' }
         //else res.status(400).send({"message": "some error happend"})
     } catch (error) {
         //res.send(error.message)

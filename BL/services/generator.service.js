@@ -44,7 +44,18 @@ async function updateGenerator(name, generator){
     console.log("generator service - update generator:", name, generator);
     //if(!name || !generator)throw new Error("generator and name is required")
     if(!name || !generator)throw { code: 400, msg: 'generator and name is required' }
-    const result = await genController.updateGenerator(name, generator)
+    // const upGenerator = {}
+    // for(k in generator){
+    //     if(k != 'dataTableName')upGenerator[k] = generator[k]
+    // }
+    
+
+    const upGenerator = {...generator}
+    //console.log(upGenerator)
+    if(upGenerator.dataTableName) delete upGenerator.dataTableName
+    //console.log(upGenerator)
+
+    const result = await genController.updateGenerator(name, upGenerator)
     //if(!result)throw new Error("something went wrong")
     if(!result)throw { code: 404, msg: 'not found' }
     return result

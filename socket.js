@@ -1,31 +1,23 @@
-const
-    express = require('express'),
-    app = express(),
-    PORT = 3000,
-    cors = require('cors')
-
-const http = require('http')
-const server = http.createServer(app)
-
-const socketIO = require('socket.io')
-
-const io = new socketIO.Server(server, {
-    cors: {
-        origin: '*'
-    }
-})
-
-io.on('connection', (socket) => {
+const socketFn =  (socket) => {
     console.log("connecting now:", socket.id);
 
-    socket.on('openLive', (data) => {
-        console.log(data);
-        userBySocket.push({ socketId: socket.id, data: data });
-        console.log(userBySocket.length)
+    let userBySocket = [];
 
-    })
+    const intervalId = setInterval(() => {
+        socket.emit('get-data', { message: 'Data from server every 5 seconds' });
+    }, 5000);
 
-})
+    
 
+    socket.on('disconnect', () => {
+        console.log(`disconnecting now: ${socket.id}`);
+        clearInterval(intervalId);
 
-server.listen(PORT, () => console.log("### server is up ###")) 
+        // Remove the user from the array
+        userBySocket = userBySocket.filter(user => user.socketId !== socket.id);
+        console.log(userBySocket.length);
+    });
+
+}
+
+module.exports = socketFn

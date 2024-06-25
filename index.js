@@ -7,8 +7,6 @@ const express = require('express');
 const mainRouter = require('./routes');
 const PORT = process.env.PORT || 3000;
 const cors = require('cors')
-
-
 const app = express();
 
 // Middleware
@@ -17,8 +15,6 @@ app.use(cors());
 
 // Routes
 app.use('/api', mainRouter);
-
-
 
 
 app.listen(PORT, () => {

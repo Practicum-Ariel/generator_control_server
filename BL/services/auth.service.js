@@ -1,49 +1,31 @@
-// // version1----------------------------
-//  const { readOne } = require("../../DL/controllers/technician.controller");
-//  const bcrypt = require("bcrypt"); // ספריה להצפנת סיסמאו
-//  async function login(idNum, password) {
-//      //check if idNum and password exist
-//      if (!idNum || !password) {
-//          throw { code: 400, message: "missing idNum or password  || All fields are required" };
-     
-//      //check if idNum already exist in database
-//      const tech = await readOne({ idNum });
-//      if (!tech) {
-//          throw { code: 404, message: "idNum not found || user not found" };
-     
-//      //check if password is correct
-//      /*const isMatch = await bcrypt.compare(password, tech.password);
-//      if (!isMatch) {
-//          throw { code: 401, message: "password is incorrect" };
-//      }*/
-//      //return tech;  
-//  }
-// }}
-// module.exports = {login}
-
-
-// version2---------------------------
-// auth.service.js
-const { readOne } = require("../../DL/controllers/technician.controller");
+const { readOne } = require("../../DL/controllers/auth.controller");
 const bcrypt = require("bcrypt");
-const generateJWT = require('../helpers/authToken');
+const CreateToken = require("../helpers/authToken");
 
 async function login(idNum, password) {
+    // check if idNum and password exist
     if (!idNum || !password) {
         throw { code: 400, message: "All fields are required" };
     }
 
+    // check if idNum (technician) already exists in the database
     const tech = await readOne({ idNum });
     if (!tech) {
         throw { code: 404, message: "User not found" };
     }
 
+    // check if password is correct
+    console.log(tech.password);
+    console.log(password);
     const isMatch = await bcrypt.compare(password, tech.password);
+    console.log(isMatch);
     if (!isMatch) {
-        throw { code: 401, message: "Password is incorrect" };
+        throw { code: 401, message: "Invalid credentials" };
     }
 
-    const token = generateJWT(tech);
+    // generate JWT token
+    const token = CreateToken(tech);
+
     return { tech, token };
 }
 

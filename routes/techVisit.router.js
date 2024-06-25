@@ -26,8 +26,8 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// /all?type=day
-router.get('/all', async (req, res) => {
+
+router.get('/', async (req, res) => {
   try {
     let result = await techVisitService.getVisitsAll(req.query);
     res.send(result);

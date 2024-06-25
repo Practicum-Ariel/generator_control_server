@@ -27,6 +27,12 @@ async function readOne(id, refPaths = []) {
 // TODO
 // - 1 get data with pagination
 // - 2 get data by filter
-async function read(filter) {}
+async function read(filter = {}, limit = 10, page = 1) {
+  const skip = (page - 1) * limit;
+  console.log(filter, limit, page);
 
-module.exports = { create, readOne };
+  return await techVisitModel.find(filter).skip(skip).limit(limit).exec();
+}
+// read(filter)
+
+module.exports = { create, readOne, read };

@@ -1,4 +1,7 @@
 const techVisitController = require('../../DL/controllers/techVisitController');
+const technicianController = require('../../DL/controllers/technician.controller');
+const techVisitModel = require('../../DL/models/techVisit.model');
+const Technician = require('../../DL/models/technician.model');
 
 /**
  * this function receives the data and check if the required fields exists in  the body,
@@ -14,7 +17,12 @@ async function createNewVisit(body) {
       code: 400,
       msg: 'ERROR IN *createNewVisit* - genId, techId, insightId query is erquired',
     };
-  return await techVisitController.create(body);
+  let treatment = await techVisitController.create(body);
+  await technicianController.update(
+    { _id: '667af35368cc9a905e960336' },
+    { $push: { treatmentsId: treatment._id } }
+  );
+  return treatment;
 }
 
 /**
@@ -27,6 +35,7 @@ async function getVisitById(id, query) {
   const validPaths = ['genId', 'techId', 'insightId']; // all the reference paths that are in the model
   const { populate } = query;
   console.log(populate);
+  
   /**
    * spliting the query, filtering based on valid paths maping
    * and creating an object for the populate in the controller file.
@@ -62,7 +71,15 @@ async function getVisitById(id, query) {
 
 async function getVisitsAll(query) {
   console.log(query);
-  const { type, genId, techId } = query;
+  const {filter, limit, page } = query;
+  if (!techVisitModel.exists(filter))
+    throw {
+      code: 404,
+      msg: `ERROR IN *getVisitsAll* - document with filter ${filter} does not exist`,
+    };
+
+  return await techVisitController.read(filter, Number(limit), Number(page));
 }
+// getVisitsAll({ type: 'day', limit: '2', page: '2' });
 
 module.exports = { createNewVisit, getVisitById, getVisitsAll };

@@ -17,8 +17,8 @@ class GeneratorDataController {
         this.#model = currentModel
     }
 
-    create(data) {
-        return this.#model.create(data)
+    async create(data) {
+        return await this.#model.create(data)
     }
 
     async read(filter, proj, limit = 1000) {
@@ -29,8 +29,8 @@ class GeneratorDataController {
         return await this.#model.findOne(filter, select)
     }
 
-    readLast(filter, proj, limit = 100) {
-        return this.#model.findOne(filter, proj).sort({ _id: -1 })
+    async readLast(filter, proj, limit = 100) {
+        return await this.#model.findOne(filter, proj).sort({ _id: -1 })
     }
 
 }

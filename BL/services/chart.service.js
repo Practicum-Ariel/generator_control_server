@@ -18,24 +18,35 @@ async function getData( generator_id, time, sensor_type, anomalya = {} ) {
     }
     switch (sensor_type) {
         case 'temperature':
-            sensor_type = "t1 t2 t3 t4";
+            sensor_type = ["t1" ,"t2", "t3", "t4"];
             break;
         case 'vibration':
-            sensor_type = "s1 s2 s3 s4"
-            break;
-        case 'volume':
             sensor_type = "v1 v2 v3 v4"
+            break;
+        case 'sound':
+            sensor_type = "s1 s2 s3 s4"
             break;
         default:
             throw { code: 500, msg: ("Sensors not good") };
     }
     let select = sensor_type + " date"
-    filter = {date:{$gt:'2024-05-23T21:00:00.000+00:00'}} //{$gt:'',&lt:''}
+    filter = {date:{$gt:time}} //{$gt:'',&lt:''}
     
-    console.log("gen:", generator_id);
-    //filter = {scenarioId:'168.temperature.normal'}//getSenIdOfEti() // delete at the end
+    filter = {scenarioId:'168.temperature.normal'}//getSenIdOfEti() // delete at the end
     const genDataController = await getController(generator_id);
-    return await genDataController.read(filter, select);    
+    return await genDataController.read(filter, select,10);   
+    
+    // let result  =await genDataController.read(filter, select,10);   
+    // let data = {}
+    // result.forEach(r=>{})
+
+    // {
+    //     t1 : [{'date':'value'}],
+    //     t2 : [{'date':'value'}],
+    //     t3 : [{'date':'value'}],
+    //     t4 : [{'date':'value'}],
+    // }
+    // return data;
 }   
 
 

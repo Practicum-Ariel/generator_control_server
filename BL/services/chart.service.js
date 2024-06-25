@@ -62,7 +62,7 @@ const getPastDayDates = () => {
 
     return ansDates;
 };
-getPastDayDates()
+
 const getPastWeekDates = () => {
     const dates = [];
     const ansDates = [];

@@ -13,6 +13,7 @@ async function readOne(filter) {
   return await technicianModel.findOne(filter);
 }
 
+
 async function update(filter, newUpdateData) {
   return await technicianModel.findOneAndUpdate(filter, newUpdateData, { new: true });
 }

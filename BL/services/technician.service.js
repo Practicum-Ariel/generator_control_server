@@ -49,4 +49,5 @@ async function deleteTechnician(technicianIdNum) {
 
 }
 
-module.exports = { generateInitialPassword, getAllTechnicians, getTechnicianById, addNewTechnician, updateTechnician, deleteTechnician, };
+module.exports = {
+     getAllTechnicians, getTechnicianById, addNewTechnician, updateTechnician, deleteTechnician, };

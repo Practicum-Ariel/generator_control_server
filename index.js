@@ -16,8 +16,6 @@ app.use(cors());
 // Routes
 app.use('/api', mainRouter);
 
-const technicianRouter = require('./routes/technician.router')
-app.use('/technician', technicianRouter)
 
 // MongoDB connection
 

@@ -44,7 +44,7 @@ router.put('/:idNum', async (req, res) => {
   }
 });
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:idNum', async (req, res) => {
   try {
     const technician = await technicianService.deleteTechnician(req.params.id);
     if (!technician) {

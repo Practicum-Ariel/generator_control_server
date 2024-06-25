@@ -38,6 +38,11 @@ async function getData( generator_id, time, sensor_type, anomalya = {} ) {
     return await genDataController.read(filter, select);    
 }   
 
+async function getLastData(generator_id) {
+    const genDataController = await getController(generator_id);
+    console.log(await genDataController.readLast2({"scenarioId":"live.15.sound.normal"}))
+    return await genDataController.readLast2({"scenarioId":"live.15.sound.normal"});     
+}
 
 const getDayBefore = () => new Date() - (DAY_MS) // return new Date()
 
@@ -93,4 +98,4 @@ const getPastMonthDates = () => {
 };
 
 
-module.exports = {getData};
+module.exports = {getData, getLastData};

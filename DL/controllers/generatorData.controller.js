@@ -33,6 +33,11 @@ class GeneratorDataController {
         return this.#model.findOne(filter, proj).sort({ _id: -1 })
     }
 
+    async readLast2(filter){
+        const last = await this.#model.findOne(filter).sort({ _id: -1 })
+        return last
+    }
+
 }
 
 

@@ -23,29 +23,3 @@ async function updateGenerator(name, generator){
 }
 
 module.exports = { getGenerator, getGenerators, addGenerator, delGenerator, updateGenerator }
-
-
-
-
-
-
-
-
-
-
-
-
-
-// const basePath = "../models/generators/"
-
-// async function createGenerator(data){
-//     const model = require(`${basePath}${data.name}`)
-//     return await model.create(data)
-// }
-
-// async function getGenerator(name){
-//     const model = require(`${basePath}${name}`)
-//     return await model.findOne({name})
-// }
-
-// module.exports = (gen_id) => {return {}}

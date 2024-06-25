@@ -15,7 +15,7 @@ const socketFn =  (socket) => {
 
         // Remove the user from the array
         userBySocket = userBySocket.filter(user => user.socketId !== socket.id);
-        console.log(userBySocket.length);
+        // console.log(userBySocket.length);
     });
 
 }

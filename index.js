@@ -1,7 +1,11 @@
+require('dotenv').config()
+
+// MongoDB connection
+require('./DL/connect').connect()
+
 const express = require('express');
 const mainRouter = require('./routes');
 const PORT = process.env.PORT || 3000;
-const dotenv = require('dotenv')
 const cors = require('cors')
 const http = require('http')
 const app = express();
@@ -18,17 +22,12 @@ const io = new socketIO.Server(server, {
 
 io.on('connection', socketFn)
 
-dotenv.config()
-
-
 // Middleware
 app.use(express.json());
 app.use(cors());
 
 // Routes
 app.use('/api', mainRouter);
-
-// MongoDB connection
 
 
 server.listen(PORT, () => {

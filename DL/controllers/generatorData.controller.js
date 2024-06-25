@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const generatorSchema = require('../models/generatorData.model');
+const generatorDataModel = require('../models/generatorData.model');
 const generatorController = require('./generator.controller')
 
 class GeneratorDataController {
@@ -29,15 +29,16 @@ class GeneratorDataController {
         return await this.#model.findOne(filter, select)
     }
 
-    readLast(filter, proj, limit = 100) {
-        return this.#model.findOne(filter, proj).sort({ _id: -1 })
+    async readLast( limit = 1) {
+        let last= this.#model.find().sort({ date: -1 }).limit(limit)
+        return await last.exec()
     }
 
 }
 
 
 async function getModelOfGenID(genDataName) {
-    return mongoose.models[genDataName] || new mongoose.model(genDataName, generatorSchema)
+    return mongoose.models[genDataName] || new mongoose.model(genDataName, generatorDataModel)
 }
 
 async function generatorDataTableName(genId) {

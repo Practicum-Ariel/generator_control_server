@@ -2,7 +2,16 @@
 const DAY_MS = 1000 * 60 * 60 * 24;
 const getController = require('../../DL/controllers/generatorData.controller')
 
-async function getData( generator_id, time, sensor_type, anomalya = {} ) {
+const timeToEventsNumber = {
+    'day': 48,
+    'week': 168,
+    'month': 720
+}
+
+async function getData( generator_id, time, sensor_type, anomaly = 'normal' ) {
+    
+    const eti = `${timeToEventsNumber[time]}.${sensor_type}.${anomaly}` //'168.temperature.normal'
+
     switch (time) {
         case 'day':
             time = getDayBefore()
@@ -33,7 +42,7 @@ async function getData( generator_id, time, sensor_type, anomalya = {} ) {
     filter = {date:{$gt:'2024-05-23T21:00:00.000+00:00'}} //{$gt:'',&lt:''}
     
     console.log("gen:", generator_id);
-    //filter = {scenarioId:'168.temperature.normal'}//getSenIdOfEti() // delete at the end
+    filter = {scenarioId: eti} // delete at the end
     const genDataController = await getController(generator_id);
     return await genDataController.read(filter, select);    
 }   

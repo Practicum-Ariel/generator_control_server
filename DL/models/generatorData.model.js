@@ -18,4 +18,3 @@ const generatorDataSchema = new mongoose.Schema({
 )
 
 module.exports = generatorDataSchema
-

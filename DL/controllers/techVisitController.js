@@ -6,18 +6,27 @@ const techVisitModel = require('../models/techVisit.model');
  * @returns created techVisit document
  */
 async function create(data) {
+  console.log('create in techVisitController.js - data received: ', data);
   return await techVisitModel.create(data);
+}
+
+async function readOne(id, refPaths = []) {
+  console.log(
+    'readOne in techVisitController.js - id: ',
+    id,
+    ' refPaths: ',
+    refPaths
+  );
+  let result = techVisitModel.findOne({ _id: id });
+  // const paths = pathsToPopulate.map((p) => ({ path: p })); // creates an array of objects {path: path-reference}
+  if (refPaths.length > 0) result = result.populate(refPaths);
+  result = await result.exec();
+  return result?.toObject();
 }
 
 // TODO
 // - 1 get data with pagination
 // - 2 get data by filter
 async function read(filter) {}
-
-async function readOne(filter, populate = undefined) {
-  let data = await techVisitModel.findOne(filter);
-  if (populate) data = await data.populate({ path: populate });
-  return data.toObject();
-}
 
 module.exports = { create, readOne };

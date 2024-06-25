@@ -2,12 +2,10 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
 const TechnicianSchema = new mongoose.Schema({
-
   fullName: {
     type: String,
     required: true,
   },
-  
   idNum: {
     type: String,
     required: true,
@@ -19,11 +17,13 @@ const TechnicianSchema = new mongoose.Schema({
     unique: true,
   },
 
-  treatmentsId: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Treatment'
-  }],
-  
+  treatmentsId: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Treatment',
+    },
+  ],
+
   password: {
     type: String,
     required: true,

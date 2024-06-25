@@ -3,23 +3,26 @@ const DAY_MS = 1000 * 60 * 60 * 24;
 const getController = require('../../DL/controllers/generatorData.controller')
 
 //for 2 date need to get time = between, and vars min and max. add another case in time
-async function getData(generator_id, time, sensor_type, anomalya = {}) {
+async function getData(generator_id, time, sensor_type, anomalya = 'normal') {
+    
+    const scenarioId = getScenarioId(time, sensor_type, anomalya) // TEMP (delete at the end)
+    
     time = timeFilter(time);
     sensor_type = sensorFilter(sensor_type);
     const selectString = sensor_type.join(" ")
     let select = selectString + " date"
-    filter = { date: { $gt: time } } //{$gt:'',&lt:''}
-    filter = { scenarioId: '48.temperature.normal' }//getSenIdOfEti() // delete at the end
+    filter = { date: { $gt: time } }
+    filter = { scenarioId } //TEMP (delete at the end)
     const genDataController = await getController(generator_id);
     return await genDataController.read(filter, select);
 }
-async function getDataForChart(generator_id, time, sensor_type, anomalya = {}) {       
-    let result = await getData(generator_id,time,sensor_type,anomalya)
+async function getDataForChart(generator_id, time, sensor_type, anomalya = {}) {
+    let result = await getData(generator_id, time, sensor_type, anomalya)
     let data = {}
     sensor_type = sensorFilter(sensor_type)
     let obj = Object.keys(result[0]).slice(3) // dont need for now id and date find what is _doc slice(2)
-    obj.forEach(e => { 
-        data[e] = []; 
+    obj.forEach(e => {
+        data[e] = [];
     });
     // let obj = Object.keys(result[0])
     // obj.forEach(e => { 
@@ -36,7 +39,7 @@ async function getDataForChart(generator_id, time, sensor_type, anomalya = {}) {
     })
     // console.log(data,"data");
     return data;
-    
+
     // let d =
     // {
     //     t1: [
@@ -141,5 +144,13 @@ const getPastMonthDates = () => {
     return ansDates;
 };
 
+const getScenarioId = (time, sensor_type, anomaly) => {
+    const timeToEventsNumber = {
+        'day': 48,
+        'week': 168,
+        'month': 720
+    }
+    return `${timeToEventsNumber[time]}.${sensor_type}.${anomaly}`
+}
 
 module.exports = { getData, getDataForChart };

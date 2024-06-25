@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 
 const chartService = require('../BL/services/chart.service')
+const generatorService = require('../BL/services/generator.service')
 
 /*    
 need to get json like that in req.query:
@@ -26,7 +27,13 @@ router.get('/:genId/data/', async(req,res) =>{
     }
 
 })
-router.get('/all-gen', async(req,res) =>{
+router.get('/all-gen', async(req,res) => {
+    try {
+        const generators = await generatorService.getGenerators()
+        res.send(generators)
+    } catch (err) {
+        res.status(err.code || 400).send(err.message)
+    }
     
 })
 

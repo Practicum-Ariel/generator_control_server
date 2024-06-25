@@ -13,13 +13,13 @@ const techVisitSchema = new mongoose.Schema({
     required: true,
   },
   date: {
-    type:  Date,
+    type: Date,
     default: Date.now,
   },
   insightId: {
     type: mongoose.SchemaTypes.ObjectId,
     ref: 'insight',
-    required: true,
+    required: true,  // TODO - delete
   },
   text: {
     type: String,
@@ -27,7 +27,7 @@ const techVisitSchema = new mongoose.Schema({
   checklist: [
     {
       title: { type: String },
-      value: { type: String },
+      value: { type: String }, // TODO - any - mixin
     },
   ],
   type: {

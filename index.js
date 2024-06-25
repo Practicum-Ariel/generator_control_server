@@ -15,8 +15,9 @@ app.use(cors());
 // Routes
 app.use('/api', mainRouter);
 
-// MongoDB connection
 
+// MongoDB connection
+require('./DL/connect').connect()
 
 app.listen(PORT, () => {
    console.log(`Server is running on  http://localhost:${PORT}/api`);

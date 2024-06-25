@@ -14,8 +14,8 @@ need to get json like that in req.query:
 router.get('/:genId/data/', async(req,res) =>{
     try{
         const {time, sensor_type, anomalya} = req.query
-        console.log(req.query, "query");
-        // const {generator_id} = req.params
+        //console.log(req.query, "query");
+        //const {generator_id} = req.params
         // console.log("params", req.params)
         const data = await chartService.getData(req.params.genId,time,sensor_type, anomalya)
         res.send(data);

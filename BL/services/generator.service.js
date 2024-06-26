@@ -1,5 +1,6 @@
 
 const generatorDataController = require('../../DL/controllers/generatorData.controller')
+const generatorController = require('../../DL/controllers/generator.controller')
 
 // only example for tavor
 async function getGeneratorData(genId) {
@@ -9,4 +10,8 @@ async function getGeneratorData(genId) {
     return generatorData
 }
 
-module.exports = { getGeneratorData}
+async function readGenerator(genId, populate) {
+    generatorController.readOne2({"_id": genId}, populate)
+}
+
+module.exports = { getGeneratorData, readGenerator}

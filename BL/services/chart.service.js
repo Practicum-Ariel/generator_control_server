@@ -40,7 +40,7 @@ async function getData( generator_id, time, sensor_type, anomalya = {} ) {
 
 async function getLastData(generator_id) {
     const genDataController = await getController(generator_id);
-    console.log(await genDataController.readLast2({"scenarioId":"live.15.sound.normal"}))
+    // console.log(await genDataController.readLast2({"scenarioId":"live.15.sound.normal"}))
     return await genDataController.readLast2({"scenarioId":"live.15.sound.normal"});     
 }
 

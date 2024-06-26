@@ -10,49 +10,57 @@ async function create(data) {
   return await techVisitModel.create(data);
 }
 
-
-async function readOne(id, refPaths = []) {
+async function readOne(filter, refPaths = []) {
   console.log(
     'readOne in techVisitController.js - id: ',
     id,
     ' refPaths: ',
     refPaths
   );
-  let result = techVisitModel.findOne({ _id: id });
+  {
+    _id: id;
+  }
+  let result = techVisitModel.findOne(filter);
   // const paths = pathsToPopulate.map((p) => ({ path: p })); // creates an array of objects {path: path-reference}
   if (refPaths.length > 0) result = result.populate(refPaths);
   result = await result.exec();
   return result?.toObject();
 }
 
+// TODO
+// - 1 get data with pagination
+// - 2 get data by filter
+async function read(filter = {}, populate = '', limit, page = 1) {
+  const validPaths = ['genId', 'techId', 'insightId']; // all the reference paths that are in the model
+  console.log(filter, populate, limit, page);
 
-async function read(filter = {}, page = 1, populate) {
-  let limit = filter == undefined ? 10 : 5;
-  const skip = (page - 1) * limit;
-  console.log(filter, page, populate);
+  let skip;
+  if (limit) {
+    skip = (+page - 1) * limit;
+  }
 
-  let data = techVisitModel.find(filter);
-  data = data.populate(populate).skip(skip).limit(limit);
-  data = await data.exec();
-  return data.toObject();
+  let pathsToPopulate = populate.includes(',')
+    ? populate.split(',').filter((path) => validPaths.includes(path))
+    : populate;
+
+  console.log(pathsToPopulate);
+
+  let trData = techVisitModel.find(filter);
+  console.log(!skip);
+  console.log(limit);
+
+  trData = !skip
+    ? trData.populate(pathsToPopulate)
+    : trData
+        .populate(pathsToPopulate)
+        .skip(skip || 0)
+        .limit(limit);
+
+  trData = await trData.exec();
+  console.log(trData);
+  return trData;
 }
-// read({ genId: '667af37245404530355ca226' }, 5, 'techId');
+// genId=667a8c00e30b38c5dad90562&populate=techId,insightId&page=1&limit=5
+// read({ genId: '667a8c00e30b38c5dad90562' }, 'techId,genId', 5, 1);
 
-/**
- *
- * @param {data} data the data mongo shoeld update
- */
-async function updateOne(filter, newData) {
-  console.log(filter, newData);
-  let updated = await techVisitModel.updateOne(filter, newData);
-  return updated;
-}
-
-/**
- *
- */
-async function deleteOne(filter) {
-  return await techVisitModel.deleteOne(filter);
-}
-
-module.exports = { create, readOne, read, updateOne, deleteOne };
+module.exports = { create, readOne, read };

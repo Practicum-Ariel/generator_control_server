@@ -1,5 +1,7 @@
 const techVisitController = require('../../DL/controllers/techVisitController');
 const technicianController = require('../../DL/controllers/technician.controller');
+const techVisitModel = require('../../DL/models/techVisit.model');
+const Technician = require('../../DL/models/technician.model');
 
 /**
  * this function receives the data and check if the required fields exists in  the body,
@@ -16,11 +18,10 @@ async function createNewVisit(body) {
       msg: 'ERROR IN *createNewVisit* - genId, techId, insightId query is erquired',
     };
   let treatment = await techVisitController.create(body);
-  if (treatment)
-    await technicianController.update(
-      { _id: techId },
-      { $push: { treatmentsId: treatment._id } }
-    );
+  await technicianController.update(
+    { _id: '667af35368cc9a905e960336' },
+    { $push: { treatmentsId: treatment._id } }
+  );
   return treatment;
 }
 
@@ -33,6 +34,8 @@ async function createNewVisit(body) {
 async function getVisitById(id, query) {
   const validPaths = ['genId', 'techId', 'insightId']; // all the reference paths that are in the model
   const { populate } = query;
+  console.log(populate);
+
   /**
    * spliting the query, filtering based on valid paths maping
    * and creating an object for the populate in the controller file.
@@ -51,10 +54,11 @@ async function getVisitById(id, query) {
   /**
    * if pathsToPopulate is !null it passes the id and the pathsToPopulate
    * else passes only id
-   */
+  //  */
+  // let id = {_id: id}
   let res = pathsToPopulate
-    ? await techVisitController.readOne(id, pathsToPopulate)
-    : await techVisitController.readOne(id);
+    ? await techVisitController.readOne({ _id: id }, pathsToPopulate)
+    : await techVisitController.readOne({ _id: id });
 
   if (!res) {
     // if the document doesnot exist error is thrown
@@ -67,47 +71,19 @@ async function getVisitById(id, query) {
 }
 
 async function getVisitsAll(query) {
-  const validPaths = ['genId', 'techId', 'insightId'];
-
   console.log(query);
-  const { populate, page, ...filter } = query.hasOwnProperty('populate')
-    ? query
-    : query.hasOwnProperty('page')
-    ? query
-    : {};
-  console.log(filter, page, populate);
-  let tr = await techVisitController.read(filter, Number(page), populate);
-  return tr;
+  const { populate, limit, page, ...filter } = query;
+  console.log(populate, limit, page, filter);
+  // if (!techVisitModel.exists(filter))
+  //   throw {
+  //     code: 404,
+  //     msg: `ERROR IN *getVisitsAll* - document with filter ${filter} does not exist`,
+  //   };
+
+  let data = await techVisitController.read(filter, populate, limit, page);
+  console.log(data);
+  return data;
 }
 // getVisitsAll({ type: 'day', limit: '2', page: '2' });
 
-async function updateVisit(body) {
-  const { filter, newData } = body;
-  if (!filter || !newData)
-    throw {
-      code: 400,
-      msg: `ERROR IN *updateVisit* - to update a 'techVist' filter AND newData`,
-    };
-
-  await techVisitController.updateOne(filter, newData);
-  let treatment = await techVisitController.readOne(filter);
-
-  console.log(treatment);
-}
-
-async function deleteVisit(body) {
-  if (!body)
-    throw {
-      code: 400,
-      msg: `ERROR IN *deleteVisit* - to delete a 'techVist' body is required`,
-    };
-  return await techVisitController.deleteOne(body);
-}
-
-module.exports = {
-  createNewVisit,
-  getVisitById,
-  getVisitsAll,
-  updateVisit,
-  deleteVisit,
-};
+module.exports = { createNewVisit, getVisitById, getVisitsAll };

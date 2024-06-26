@@ -25,13 +25,22 @@ class GeneratorDataController {
         return await this.#model.find(filter, proj).limit(limit)
     }
 
+    async readWithSkip(filter, proj, limit = 1000, skip = 0) {
+        return await this.#model.find(filter, proj).skip(skip).limit(limit) //.lean();
+    }
+
     async readOne(filter, select) {
         return await this.#model.findOne(filter, select)
     }
 
-    async readLast( limit = 1) {
-        let last= this.#model.find().sort({ date: -1 }).limit(limit)
+    async readLast(limit = 1) {
+        let last = this.#model.find().sort({ date: -1 }).limit(limit)
         return await last.exec()
+    }
+
+    async readLast2(filter) {
+        const last = await this.#model.findOne(filter).sort({ _id: -1 })
+        return last
     }
 
 }

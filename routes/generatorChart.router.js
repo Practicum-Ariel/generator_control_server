@@ -27,6 +27,20 @@ router.get('/:genId/data/', async(req,res) =>{
     }
 
 })
+
+router.get('/:genId/sensors/', async(req,res) =>{
+    try{
+        const sensors = await generatorService.readGenerator(req.params.genId, true)
+        // console.log(sensors)
+        res.send(sensors.sensorsIds);
+    }
+    catch(error){
+        console.log('error test', error);
+        res.status(error.code || 500).send(error.msg || 'error test')
+    }
+})
+
+
 router.get('/all-gen', async(req,res) => {
     try {
         const generators = await generatorService.getGenerators()
@@ -36,5 +50,17 @@ router.get('/all-gen', async(req,res) => {
     }
     
 })
+
+
+router.get('/pagination', async (req, res) => {
+    try {
+        const { rows, pageNumber, ref } = req.query;
+        const data = await generatorService.doPagination(parseInt(rows), parseInt(pageNumber), ref);
+        res.send(data);
+    } catch (err) {
+        console.log(err)
+        res.status(err.code || 500).send(err.message);
+    }   
+});
 
 module.exports = router;

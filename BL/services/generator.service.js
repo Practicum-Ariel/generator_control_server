@@ -1,5 +1,6 @@
 const generatorDataController = require('../../DL/controllers/generatorData.controller')
 const generatorController = require('../../DL/controllers/generator.controller')
+const { IoReturnDownBack } = require('react-icons/io5')
 
 // only example for tavor
 async function getGeneratorData(genId) {
@@ -7,6 +8,10 @@ async function getGeneratorData(genId) {
     let genController = await generatorDataController(genId)
     const generatorData = await genController.read()
     return generatorData
+}
+
+async function readGenerator(genId, populate) {
+    return generatorController.readOne2({ "_id": genId }, populate)
 }
 
 async function _getFullGenerators(genId) {
@@ -31,4 +36,13 @@ async function getGenerators(query) {
     // return await Promise.all(generators.filter(gen => _getFullGenerators(gen._id)))
 }
 
-module.exports = { getGeneratorData, getGenerators }
+async function doPagination(rows, pageNum, ref) {
+    let startIndex = (pageNum - 1) * rows
+    let genController = await generatorDataController(ref)
+    const dataForPage = await genController.readWithSkip({}, { data: 1, scenarioId: 1 }, rows, startIndex)
+    // let dataForPage = await generatorDataController.readWithSkip()
+    return dataForPage
+}
+
+module.exports = { getGeneratorData, getGenerators, readGenerator, doPagination }
+

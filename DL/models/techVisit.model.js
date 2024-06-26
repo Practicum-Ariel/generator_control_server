@@ -2,12 +2,12 @@ const mongoose = require('mongoose');
 
 const techVisitSchema = new mongoose.Schema({
   genId: {
-    type: mongoose.SchemaTypes.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'generator',
     required: true,
   },
   techId: {
-    type: mongoose.SchemaTypes.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'Technician',
     required: true,
   },
@@ -16,7 +16,7 @@ const techVisitSchema = new mongoose.Schema({
     default: Date.now,
   },
   insightId: {
-    type: mongoose.SchemaTypes.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'insight',
   },
   text: {

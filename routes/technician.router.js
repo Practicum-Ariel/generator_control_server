@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const technicianService = require('../BL/services/technician.service');
+const { TechnicianAuth } = require('../BL/helpers/authToken')
+
 
 router.post('/', async (req, res) => {
   try {
@@ -8,7 +10,8 @@ router.post('/', async (req, res) => {
     console.log(technician);
     res.send(technician);
   } catch (err) {
-    res.status(err.code || 400).send(err.message);
+    console.log(err);
+    res.status(err.code < 900 ? err.code || 400 : 500).send(err.message);
   }
 });
 

@@ -7,4 +7,4 @@ const getScenarioId = (time, sensor_type, anomaly) => {
     return `${timeToEventsNumber[time]}.${sensor_type}.${anomaly}`
 }
 
-module.exports = {getScenarioId}
+module.exports = getScenarioId

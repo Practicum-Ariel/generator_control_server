@@ -5,8 +5,8 @@ const compareService = require('../BL/services/compare.service');
 
 router.get('/', async(req,res) => {
     try {
-        const {genId1, genId2} = req.query;
-        const data = await compareService.getDataToCompare(genId1,genId2);
+        const {ids, time, sensor_type, anomalya} = req.query;
+        const data = await compareService.getDataToCompare(genId1,genId2,time,sensor_type,anomalya);
         res.send('OK');
     }
     catch (error){

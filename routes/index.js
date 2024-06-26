@@ -10,6 +10,8 @@ router.use('/generator', require('./generatorChart.router'))
 router.use('/test-gen', testGenRouter)
 router.use('/visit', require('./techVisit.router'));
 router.use('/technician', require('./technician.router'))
+router.use('/compare', require('./generatorCompare.router'))
 router.use('/aiapiserver', aiApiServer)
+
 
 module.exports = router

@@ -8,7 +8,8 @@ router.post('/', async (req, res) => {
     console.log(technician);
     res.send(technician);
   } catch (err) {
-    res.status(err.code || 400).send(err.message);
+    console.log(err);
+    res.status((err.code && err.code > 500) ? err.code : 400).send(err.message);
   }
 });
 
@@ -21,6 +22,14 @@ router.get('/', async (req, res) => {
   }
 });
 
+router.get('/by-filter', async (req, res) => {
+  try {
+    res.send(await technicianService.doFilters(req.query))
+  } catch (err) {
+    res.status(400).send(err.message)
+  }
+})
+
 router.get('/:idNum', async (req, res) => {
   try {
     if (!technician) {
@@ -31,6 +40,7 @@ router.get('/:idNum', async (req, res) => {
     res.status(400).send(err.message);
   }
 });
+
 
 router.put('/:idNum', async (req, res) => {
   try {

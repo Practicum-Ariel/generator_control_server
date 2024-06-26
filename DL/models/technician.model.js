@@ -13,6 +13,7 @@ const TechnicianSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
+
   phoneNumber: {
     type: String,
     required: true,

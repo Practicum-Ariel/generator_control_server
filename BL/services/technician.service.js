@@ -11,12 +11,17 @@ async function getTechnicianById(idNum) {
     return await technicianController.readOne({ idNum });
 }
 
+async function doFilters(query) {
+    let {filter = {}, sortBy, sortDir, searchIn, searchBy } = query;
+    return await technicianController.readFilter(filter , sortBy, sortDir, searchIn, searchBy)
+}
+
 async function addNewTechnician(body) {
     let { idNum, fullName, phoneNumber, treatmentsId } = body;
 
     let technician = await getTechnicianById(idNum);
     if (technician) throw { message: "technician is exist" };
-    technician = { idNum, fullName, phoneNumber, treatmentsId, password: idNum  }
+    technician = { idNum, fullName, phoneNumber, treatmentsId, password: idNum }
     return await technicianController.create(technician)
 }
 
@@ -50,4 +55,5 @@ async function deleteTechnician(technicianIdNum) {
 }
 
 module.exports = {
-     getAllTechnicians, getTechnicianById, addNewTechnician, updateTechnician, deleteTechnician, };
+    getAllTechnicians, getTechnicianById, doFilters, addNewTechnician, updateTechnician, deleteTechnician,
+};

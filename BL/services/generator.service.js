@@ -1,6 +1,5 @@
 const generatorDataController = require('../../DL/controllers/generatorData.controller')
 const generatorController = require('../../DL/controllers/generator.controller')
-const { IoReturnDownBack } = require('react-icons/io5')
 
 // only example for tavor
 async function getGeneratorData(genId) {

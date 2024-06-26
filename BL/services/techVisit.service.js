@@ -1,7 +1,7 @@
 const techVisitController = require('../../DL/controllers/techVisitController');
 const technicianController = require('../../DL/controllers/technician.controller');
 const techVisitModel = require('../../DL/models/techVisit.model');
-const Technician = require('../../DL/models/technician.model');
+
 
 /**
  * this function receives the data and check if the required fields exists in  the body,

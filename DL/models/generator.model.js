@@ -17,6 +17,10 @@ const generatorSchema = new mongoose.Schema({
     sensorsIds: {
         type: Array,
     },
+    dataTableName: {
+        type: String,
+        required: true
+    },
     status: {
         type: String,
         enum: ['available', 'repair', 'off'],

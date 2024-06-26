@@ -34,7 +34,24 @@ router.get('/', async (req, res) => {
   } catch (error) {
     res
       .status(error.code || 500)
-      .send(error.msg || 'ERROR geting multyple techVisit ');
+      .send(error.msg || 'ERROR getting multyple techVisit ');
+  }
+});
+router.put('/update', async (req, res) => {
+  try {
+    let result = await techVisitService.updateVisit(req.body);
+    res.send(result);
+  } catch (error) {
+    res.status(error.code || 500).send(error.msg || 'ERROR updating techVisit');
+  }
+});
+
+router.delete('/', async (req, res) => {
+  try {
+    let result = await techVisitService.deleteVisit(req.body);
+    res.send(result);
+  } catch (error) {
+    res.status(error.code || 500).send(error.msg || 'ERROR deleting techVisit');
   }
 });
 

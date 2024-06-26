@@ -14,6 +14,10 @@ const generatorSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     },
+    lastUpdate: {
+        type: Date,
+        required: true
+    },
     sensorsIds: {
         type: Array,
     },

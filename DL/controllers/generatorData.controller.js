@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const generatorSchema = require('../models/generatorData.model');
+const generatorDataModel = require('../models/generatorData.model');
 const generatorController = require('./generator.controller')
 
 class GeneratorDataController {
@@ -17,23 +17,28 @@ class GeneratorDataController {
         this.#model = currentModel
     }
 
-    create(data) {
-        return this.#model.create(data)
+    async create(data) {
+        return await this.#model.create(data)
     }
 
     async read(filter, proj, limit = 1000) {
         return await this.#model.find(filter, proj).limit(limit)
     }
 
+    async readWithSkip(filter, proj, limit = 1000, skip = 0) {
+        return await this.#model.find(filter, proj).skip(skip).limit(limit) //.lean();
+    }
+
     async readOne(filter, select) {
         return await this.#model.findOne(filter, select)
     }
 
-    readLast(filter, proj, limit = 100) {
-        return this.#model.findOne(filter, proj).sort({ _id: -1 })
+    async readLast(limit = 1) {
+        let last = this.#model.find().sort({ date: -1 }).limit(limit)
+        return await last.exec()
     }
 
-    async readLast2(filter){
+    async readLast2(filter) {
         const last = await this.#model.findOne(filter).sort({ _id: -1 })
         return last
     }
@@ -42,7 +47,7 @@ class GeneratorDataController {
 
 
 async function getModelOfGenID(genDataName) {
-    return mongoose.models[genDataName] || new mongoose.model(genDataName, generatorSchema)
+    return mongoose.models[genDataName] || new mongoose.model(genDataName, generatorDataModel)
 }
 
 async function generatorDataTableName(genId) {

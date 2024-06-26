@@ -11,15 +11,16 @@ const Technician = require('../../DL/models/technician.model');
  */
 async function createNewVisit(body) {
   console.log('techVisit service - create new visit, body: ', body);
-  const { genId, techId, insightId } = body;
-  if (!genId || !techId || !insightId)
+  const { genId, techId } = body;
+  if (!genId || !techId)
     throw {
       code: 400,
-      msg: 'ERROR IN *createNewVisit* - genId, techId, insightId query is erquired',
+      msg: 'ERROR IN *createNewVisit* - genId, techId query is required',
     };
+  s;
   let treatment = await techVisitController.create(body);
   await technicianController.update(
-    { _id: '667af35368cc9a905e960336' },
+    { _id: techId },
     { $push: { treatmentsId: treatment._id } }
   );
   return treatment;
@@ -31,43 +32,11 @@ async function createNewVisit(body) {
  * @param {optional | string  } query if received, the query should contain the populate as string - genId,techId,...
  * @returns one document from the DB
  */
-async function getVisitById(id, query) {
-  const validPaths = ['genId', 'techId', 'insightId']; // all the reference paths that are in the model
-  const { populate } = query;
-  console.log(populate);
-
-  /**
-   * spliting the query, filtering based on valid paths maping
-   * and creating an object for the populate in the controller file.
-   */
-  const pathsToPopulate = populate
-    ? populate
-        .split(',')
-        .filter((path) => validPaths.includes(path))
-        .map((p) => ({ path: p }))
-    : null;
-  console.log('techVisit service - read a single visit ', pathsToPopulate, id);
-  if (!id) {
-    // checks if id is received
-    throw { code: 400, msg: 'ERROR IN *getVisitById* - id is required ' };
-  }
-  /**
-   * if pathsToPopulate is !null it passes the id and the pathsToPopulate
-   * else passes only id
-  //  */
-  // let id = {_id: id}
-  let res = pathsToPopulate
-    ? await techVisitController.readOne({ _id: id }, pathsToPopulate)
-    : await techVisitController.readOne({ _id: id });
-
-  if (!res) {
-    // if the document doesnot exist error is thrown
-    throw {
-      code: 404,
-      msg: `ERROR IN *getVisitById* - document with id ${id} does not exist`,
-    };
-  }
-  return res;
+async function getVisitById(id) {
+  return await techVisitController.readOne(
+    { _id: id },
+    'genId techId insightId'
+  );
 }
 
 async function getVisitsAll(query) {
@@ -80,7 +49,8 @@ async function getVisitsAll(query) {
   //     msg: `ERROR IN *getVisitsAll* - document with filter ${filter} does not exist`,
   //   };
 
-  let data = await techVisitController.read(filter, populate, limit, page);
+  // let data = await techVisitController.read(filter, populate, limit, page);
+  let data = await techVisitController.read({}, 'techId', 5);
   console.log(data);
   return data;
 }

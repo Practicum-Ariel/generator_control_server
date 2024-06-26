@@ -10,19 +10,9 @@ async function create(data) {
   return await techVisitModel.create(data);
 }
 
-async function readOne(filter, refPaths = []) {
-  console.log(
-    'readOne in techVisitController.js - id: ',
-    id,
-    ' refPaths: ',
-    refPaths
-  );
-  {
-    _id: id;
-  }
+async function readOne(filter, populate) {
   let result = techVisitModel.findOne(filter);
-  // const paths = pathsToPopulate.map((p) => ({ path: p })); // creates an array of objects {path: path-reference}
-  if (refPaths.length > 0) result = result.populate(refPaths);
+  if (populate) result = result.populate(populate);
   result = await result.exec();
   return result?.toObject();
 }
@@ -30,31 +20,14 @@ async function readOne(filter, refPaths = []) {
 // TODO
 // - 1 get data with pagination
 // - 2 get data by filter
-async function read(filter = {}, populate = '', limit, page = 1) {
-  const validPaths = ['genId', 'techId', 'insightId']; // all the reference paths that are in the model
-  console.log(filter, populate, limit, page);
-
-  let skip;
-  if (limit) {
-    skip = (+page - 1) * limit;
-  }
-
-  let pathsToPopulate = populate.includes(',')
-    ? populate.split(',').filter((path) => validPaths.includes(path))
-    : populate;
-
-  console.log(pathsToPopulate);
+async function read(filter = {}, populate, limit, page = 1) {
+  // populate = 'genId techId';
 
   let trData = techVisitModel.find(filter);
-  console.log(!skip);
-  console.log(limit);
 
-  trData = !skip
-    ? trData.populate(pathsToPopulate)
-    : trData
-        .populate(pathsToPopulate)
-        .skip(skip || 0)
-        .limit(limit);
+  if (populate) trData = trData.populate(populate);
+
+  if (limit) trData = trData.skip((page - 1) * limit).limit(limit);
 
   trData = await trData.exec();
   console.log(trData);

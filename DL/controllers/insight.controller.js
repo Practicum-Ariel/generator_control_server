@@ -14,7 +14,6 @@ async function read(filter, sort, skip, limit, select) {
     return await query;
 }
 
-
 // Read one insight by _id or any filter
 async function readOne(filter, select) {
     return await Insight.findOne(filter, select).lean();
@@ -22,16 +21,17 @@ async function readOne(filter, select) {
 
 // Create a new insight
 async function create(data) {
-    const newData = await Insight.create(data);
-    return newData.toObject();
+    const newData = await Insight.create(data)
+    // return newData.toObject()//convert to js object
+    return newData
 }
 
 // Create new many insight
 async function createMany(dataArray) {
     const newDocuments = await Insight.insertMany(dataArray);
-    return newDocuments.map(doc => doc.toObject());
+    // return newDocuments.map(doc => doc.toJSON())//convert to js object
+    return newDocuments
 }
-
 
 // Update an insight or Delete an insight (soft delete)
 async function update(id, data) {

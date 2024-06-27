@@ -1,7 +1,7 @@
 //sagiButa
 //ai service for insight
 
-const { read, readOne, create, update, del } = require('../../DL/controllers/insight.controller');
+const { read, readOne, create, update, del, createMany } = require('../../DL/controllers/insight.controller');
 
 // === BL-FUNCTIONS ===
 
@@ -19,18 +19,14 @@ async function getOneInsight(filter, select) {
 // ---CREATE A NEW INSIGHTS OR ONES---
 async function createInsight(dataArray) {
     // אם הנתונים הם מערך, הכנס כל תובנה בנפרד למסד הנתונים
-    if (dataArray.length > 0) {
-        const results = [];
-        for (const data of dataArray) {
-            console.log("arr", dataArray);
-            const result = await create(data);
-            results.push(result);
-        }
-        return results;
+    console.log(dataArray.length)
+    if (dataArray.length > 1) {
+        console.log("arr", dataArray);
+        return await createMany(dataArray);
     } else {
         // אם זה לא מערך, הכנס רק את התובנה היחידה
+        console.log("one", dataArray);
         return await create(dataArray);
-        console.log("one".dataArray);
     }
 }
 

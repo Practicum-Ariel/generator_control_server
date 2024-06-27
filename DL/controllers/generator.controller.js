@@ -5,7 +5,7 @@ async function create(data) {
   return await generatorModel.create(data);
 }
 async function read(filter, select) {
-  return await generatorModel.find(filter, select);
+  return (await generatorModel.find(filter, select)).map(g=>g.toObject());
 }
 async function readOne(filter, populate) {
   let data = generatorModel.findOne(filter);
@@ -37,4 +37,10 @@ async function del(id) {
   return await update(id, { isActive: false });
 }
 
+<<<<<<< HEAD
 module.exports = { create, read, readOne, update, del, readOne2 };
+=======
+
+module.exports = { create, read, readOne, update, del, readOne2 }
+
+>>>>>>> dbc6e2b5bf421ec2e7292e959ace1daa63f5b992

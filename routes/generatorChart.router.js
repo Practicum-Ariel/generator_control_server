@@ -41,16 +41,29 @@ router.get('/:genId/sensors/', async(req,res) =>{
 })
 
 
+
 router.get('/all-gen', async(req,res) => {
     try {
-        const generators = await generatorService.getGenerators()
+        const {status} = req.query
+        const generators = await generatorService.getGeneratorsWithLastData({status})
         res.send(generators)
     } catch (err) {
+        console.log(err);
         res.status(err.code || 400).send(err.message)
     }
     
 })
 
+router.get('/:genId/', async(req,res) =>{
+    try{
+        const generator = await generatorService.getOneGenerator(req.params.genId)
+        res.send(generator);
+    }
+    catch(error){
+        console.log('error test', error);
+        res.status(error.code || 500).send(error.msg || 'error test')
+    }
+})
 
 router.get('/pagination', async (req, res) => {
     try {

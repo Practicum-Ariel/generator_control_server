@@ -40,6 +40,17 @@ router.get('/:genId/sensors/', async(req,res) =>{
     }
 })
 
+router.get('/:genId/', async(req,res) =>{
+    try{
+        const generator = await generatorService.getOneGenerator(req.params.genId)
+        res.send(generator);
+    }
+    catch(error){
+        console.log('error test', error);
+        res.status(error.code || 500).send(error.msg || 'error test')
+    }
+})
+
 
 router.get('/all-gen', async(req,res) => {
     try {

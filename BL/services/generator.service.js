@@ -9,6 +9,10 @@ async function getGeneratorData(genId) {
     return generatorData
 }
 
+async function getOneGenerator(genId) {
+    return await generatorController.readOne({name : genId})
+}
+
 async function readGenerator(genId, populate) {
     return generatorController.readOne2({ "_id": genId }, populate)
 }
@@ -69,4 +73,4 @@ async function doPagination(rows, pageNum, ref) {
     return dataForPage
 }
 
-module.exports = { getGeneratorData, getGeneratorsWithLastData, readGenerator, doPagination }
+module.exports = { getGeneratorData, getGeneratorsWithLastData, readGenerator, doPagination, getOneGenerator }

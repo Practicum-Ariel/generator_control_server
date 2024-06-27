@@ -1,15 +1,14 @@
-const { text } = require('express');
 const mongoose = require('mongoose');
 
 const techVisitSchema = new mongoose.Schema({
   genId: {
-    type: mongoose.SchemaTypes.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'generator',
     required: true,
   },
   techId: {
-    type: mongoose.SchemaTypes.ObjectId,
-    ref: 'technician',
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Technician',
     required: true,
   },
   date: {
@@ -17,9 +16,8 @@ const techVisitSchema = new mongoose.Schema({
     default: Date.now,
   },
   insightId: {
-    type: mongoose.SchemaTypes.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'insight',
-    required: true,  // TODO - delete
   },
   text: {
     type: String,
@@ -27,7 +25,7 @@ const techVisitSchema = new mongoose.Schema({
   checklist: [
     {
       title: { type: String },
-      value: { type: String }, // TODO - any - mixin
+      value: { type: mongoose.Schema.Types.Mixed }, // type = any
     },
   ],
   type: {
@@ -36,6 +34,6 @@ const techVisitSchema = new mongoose.Schema({
   },
 });
 
-const techVisitModel = mongoose.model('techVisit', techVisitSchema);
+const techVisitModel = mongoose.model('TechVisit', techVisitSchema);
 
 module.exports = techVisitModel;

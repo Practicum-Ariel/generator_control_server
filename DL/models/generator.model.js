@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-
+const sensor = require('./sensor.model')
 const generatorSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -14,8 +14,10 @@ const generatorSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     },
-    sensorsIds: {
-        type: Array,
+    sensorsIds: [{ type: mongoose.Schema.Types.ObjectId, ref: 'sensor' }],
+    dataTableName: {
+        type: String,
+        required: true
     },
     status: {
         type: String,

@@ -25,6 +25,10 @@ class GeneratorDataController {
         return await this.#model.find(filter, proj).limit(limit)
     }
 
+    async readAll(filter, proj) {
+        return await this.#model.find(filter, proj)
+    }
+
     async readOne(filter, select) {
         return await this.#model.findOne(filter, select)
     }

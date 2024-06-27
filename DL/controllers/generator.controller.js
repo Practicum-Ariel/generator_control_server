@@ -5,7 +5,7 @@ async function create(data) {
   return await generatorModel.create(data);
 }
 async function read(filter, select) {
-  return await generatorModel.find(filter, select);
+  return (await generatorModel.find(filter, select)).map(g=>g.toObject());
 }
 async function readOne(filter, populate) {
   let data = generatorModel.findOne(filter);

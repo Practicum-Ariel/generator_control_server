@@ -19,7 +19,8 @@ async function _getFullGenerators(genId) {
     return Boolean(generatorLastData.length)
 }
 
-async function getGeneratorsWithLastData(filter = { status: 'available' }) {
+async function getGeneratorsWithLastData(filter = {}) {
+    if (!filter.status) filter.status = 'available'
     const generators = await generatorController.read({ ...filter, isActive: true }, 'name location status lastUpdate') // the string is for select fields from the object
 
     switch (filter.status) {
@@ -33,20 +34,17 @@ async function getGeneratorsWithLastData(filter = { status: 'available' }) {
                     const vibAvg = (v1 + v2 + v3 + v4) / 4
                     const soundAvg = (s1 + s2 + s3 + s4) / 4
 
-                    return { ...gen._doc, tempAvg, vibAvg, soundAvg }
+                    return { ...gen, tempAvg, vibAvg, soundAvg }
                 }
-                else return {...gen._doc, message: 'No information from sensors'}
+                return { ...gen, message: 'No information from sensors' }
             })
 
             return await Promise.all(generatorsWithLastDataPromises)
-
-            break
         case 'repair':
-            return generators
-            break
         case 'off':
             return generators
-            break
+        default:
+            return [];
     }
 
     // return only generators with data + deals with async function within Array.map

@@ -37,10 +37,4 @@ async function del(id) {
   return await update(id, { isActive: false });
 }
 
-<<<<<<< HEAD
 module.exports = { create, read, readOne, update, del, readOne2 };
-=======
-
-module.exports = { create, read, readOne, update, del, readOne2 }
-
->>>>>>> dbc6e2b5bf421ec2e7292e959ace1daa63f5b992

@@ -41,16 +41,11 @@ async function getVisitById(id) {
 
 async function getVisitsAll(query) {
   console.log(query);
-  const { populate, limit, page, ...filter } = query;
-  console.log(populate, limit, page, filter);
-  // if (!techVisitModel.exists(filter))
-  //   throw {
-  //     code: 404,
-  //     msg: `ERROR IN *getVisitsAll* - document with filter ${filter} does not exist`,
-  //   };
-
+  const { limit, page, ...filter } = query;
+  console.log(limit, page, filter);
+  const populate = 'genId techId insightId';
   // let data = await techVisitController.read(filter, populate, limit, page);
-  let data = await techVisitController.read({}, 'techId', 5);
+  let data = await techVisitController.read({}, populate, 5);
   console.log(data);
   return data;
 }

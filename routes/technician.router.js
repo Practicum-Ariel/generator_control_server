@@ -46,7 +46,7 @@ router.put('/:idNum', async (req, res) => {
 
 router.delete('/:idNum', async (req, res) => {
   try {
-    const technician = await technicianService.deleteTechnician(req.params.id);
+    const technician = await technicianService.deleteTechnician(req.params.idNum);
     if (!technician) {
       return res.status(404).send('Technician not found');
     }

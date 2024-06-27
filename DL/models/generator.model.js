@@ -27,6 +27,9 @@ const generatorSchema = new mongoose.Schema({
     insights: {
         type: Array,
     },
+    lastUpdate: {
+        type: Date,
+    },
     isActive: {
         type: Boolean,
         default: true

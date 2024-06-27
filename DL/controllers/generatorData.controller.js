@@ -1,10 +1,10 @@
-const mongoose = require('mongoose');
-const generatorDataModel = require('../models/generatorData.model');
+const mongoose = require('mongoose')
+const generatorDataModel = require('../models/generatorData.model')
 const generatorController = require('./generator.controller')
 
 class GeneratorDataController {
 
-    #model;
+    #model
     #genDataName
 
     constructor(genId) {
@@ -36,6 +36,11 @@ class GeneratorDataController {
     async readLast(limit = 1) {
         let last = this.#model.find().sort({ date: -1 }).limit(limit)
         return await last.exec()
+    }
+    
+    async readLastOne() {
+        let last = await this.readLast(1)
+        return last[0]
     }
 
     async readLast2(filter) {

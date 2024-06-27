@@ -22,6 +22,7 @@ async function createInsight(dataArray) {
     if (dataArray.length > 0) {
         const results = [];
         for (const data of dataArray) {
+            console.log("arr", dataArray);
             const result = await create(data);
             results.push(result);
         }
@@ -29,6 +30,7 @@ async function createInsight(dataArray) {
     } else {
         // אם זה לא מערך, הכנס רק את התובנה היחידה
         return await create(dataArray);
+        console.log("one".dataArray);
     }
 }
 

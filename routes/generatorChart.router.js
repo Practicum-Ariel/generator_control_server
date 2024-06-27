@@ -58,6 +58,7 @@ router.get('/all-gen', async(req,res) => {
         const generators = await generatorService.getGeneratorsWithLastData({status})
         res.send(generators)
     } catch (err) {
+        console.log(err);
         res.status(err.code || 400).send(err.message)
     }
     

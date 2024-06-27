@@ -4,9 +4,16 @@
 const Insight = require('../models/insights.model');
 
 // Read all insights by any filter
-async function read(filter, select) {
-    return await Insight.find(filter, select).lean();
+async function read(filter, sort, skip, limit, select) {
+    let query = Insight.find(filter).select(select).skip(skip).limit(limit).lean();
+
+    if (sort) {
+        query = query.sort(sort);
+    }
+
+    return await query;
 }
+
 
 // Read one insight by _id or any filter
 async function readOne(filter, select) {

@@ -6,8 +6,8 @@ const { read, readOne, create, update, del } = require('../../DL/controllers/ins
 // === BL-FUNCTIONS ===
 
 // --- GETS ALL &
-async function getAllInsights(filter, select) {
-    return await read(filter, select);
+async function getAllInsights(filter, sort, skip, limit, select) {
+    return await read(filter, sort, skip, limit, select);
 }
 
 // --- GET ONE FUNCTION ---

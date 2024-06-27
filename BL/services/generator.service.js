@@ -35,7 +35,7 @@ async function getGeneratorsWithLastData(filter = { status: 'available' }) {
 
                     return { ...gen._doc, tempAvg, vibAvg, soundAvg }
                 }
-                else return `No information for this generator - ${gen.name}`
+                else return {...gen._doc, message: 'No information from sensors'}
             })
 
             return await Promise.all(generatorsWithLastDataPromises)

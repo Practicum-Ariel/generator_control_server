@@ -6,6 +6,10 @@ const TechnicianSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  isActive: {
+    type: Boolean,
+    default: true
+  }, 
   idNum: {
     type: String,
     required: true,
@@ -16,6 +20,11 @@ const TechnicianSchema = new mongoose.Schema({
     type: String,
     required: true,
     unique: true,
+  },
+
+  img: {
+    type: String,
+    required: true,
   },
 
   treatmentsId: [
@@ -33,11 +42,11 @@ const TechnicianSchema = new mongoose.Schema({
 });
 
 // הצפנת הסיסמה לפני שמירת הטכנאי
-TechnicianSchema.pre('save', async function(next) {
+TechnicianSchema.pre('save', async function (next) {
   if (!this.isModified('password')) {
     return next();
   }
-  try { 
+  try {
     const salt = await bcrypt.genSalt(10);
     this.password = await bcrypt.hash(this.password, salt); // הצפנת הסיסמא עם הסאילט שנוצר , והחלפת הסיסמא המקרואית בסיסמא המוצפנת
     next();

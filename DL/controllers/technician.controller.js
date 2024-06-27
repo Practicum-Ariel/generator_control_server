@@ -32,7 +32,7 @@ async function update(filter, newUpdateData) {
 }
 
 async function deleteTechnician(filter) {
-  return await technicianModel.findOneAndDelete(filter);
+  return await technicianModel.findOneAndUpdate(filter, {isActive: false});
 }
 module.exports = {
   read, readOne, readFilter, update, deleteTechnician, create

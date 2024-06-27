@@ -1,6 +1,6 @@
 const technicianController = require("../../DL/controllers/technician.controller");
 const bcrypt = require("bcrypt"); // ספריה להצפנת סיסמאות
-
+const images = ["/images/profile_1.jpg", "/images/profile_2.jpg", "/images/profile_3.jpg", "/images/profile_4.jpg", "/images/profile_5.jpg"]
 
 async function getAllTechnicians() {
     return await technicianController.read();
@@ -15,13 +15,18 @@ async function doFilters(query) {
     let {filter = {}, sortBy, sortDir, searchIn, searchBy } = query;
     return await technicianController.readFilter(filter , sortBy, sortDir, searchIn, searchBy)
 }
+function getRandomImage() {
+    const randomIndex = Math.floor(Math.random() * images.length);
+    return images[randomIndex];
+  }
 
 async function addNewTechnician(body) {
     let { idNum, fullName, phoneNumber, treatmentsId } = body;
+     let img = getRandomImage();
 
     let technician = await getTechnicianById(idNum);
     if (technician) throw { message: "technician is exist" };
-    technician = { idNum, fullName, phoneNumber, treatmentsId, password: idNum }
+    technician = { idNum, fullName, phoneNumber, treatmentsId, password: idNum , img}
     return await technicianController.create(technician)
 }
 

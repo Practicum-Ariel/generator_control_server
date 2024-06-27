@@ -8,9 +8,6 @@ const { createInsight, getOneInsight, getAllInsights, updateInsight, deleteInsig
 // Get all insights by any filter
 router.get('/', async (req, res) => {
     try {
-
-
-
         const limit = parseInt(req.query.limit) || 10; // ? optional=> to limited number of results == by default 0 results ==
         const skip = parseInt(req.query.skip) || 0; // ? optional=> to skip results 
         const select = req.query.select || null;// ? optional =>select key to return
@@ -23,6 +20,7 @@ router.get('/', async (req, res) => {
             // filter = { [key]: value }
             filter[key] = value
         }
+
         const insights = await getAllInsights(filter, sort, skip, limit, select);
         res.status(200).json(insights);
     } catch (err) {

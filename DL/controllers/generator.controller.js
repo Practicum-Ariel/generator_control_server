@@ -15,19 +15,19 @@ async function readOne(filter, populate) {
 }
 
 async function readOne2(filter, populate) {
-    try {
-        let query = generatorModel.findOne(filter);
-        if (populate) {
-            query = query.populate({ path: 'sensorsIds' });
-        }
-        const data = await query.exec();
-        const result = data ? data.toObject() : null;
-        // console.log(result);
-        return result;
-    } catch (error) {
-        console.error('Error fetching data:', error);
-        throw error;
+  try {
+    let query = generatorModel.findOne(filter);
+    if (populate) {
+      query = query.populate({ path: 'sensorsIds' });
     }
+    const data = await query.exec();
+    const result = data ? data.toObject() : null;
+    // console.log(result);
+    return result;
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    throw error;
+  }
 }
 
 async function update(id, data) {
@@ -37,6 +37,4 @@ async function del(id) {
   return await update(id, { isActive: false });
 }
 
-
-module.exports = { create, read, readOne, update, del, readOne2 }
-
+module.exports = { create, read, readOne, update, del, readOne2 };

@@ -35,8 +35,13 @@ const insightSchema = new mongoose.Schema({
     is_active: {
         type: Boolean,
         default: true
-    }
-});
+    },
+
+},
+
+    { timestamps: true } // מוסיף createdAt ו-updatedAt אוטומטית
+
+);
 
 const Insight = mongoose.model('insight', insightSchema);
 

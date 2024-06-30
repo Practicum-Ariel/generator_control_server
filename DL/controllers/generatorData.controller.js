@@ -44,7 +44,7 @@ class GeneratorDataController {
     }
 
     async readLast2(filter) {
-        const last = await this.#model.findOne(filter).sort({ _id: -1 })
+        const last = await this.#model.findOne({}).sort({ date: -1 })
         return last
     }
 

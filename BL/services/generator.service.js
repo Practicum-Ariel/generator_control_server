@@ -9,8 +9,8 @@ async function getGeneratorData(genId) {
     return generatorData
 }
 
-async function getOneGenerator(genId) {
-    return await generatorController.readOne({name : genId})
+async function getOneGenerator(genId, populate) {
+    return await generatorController.readOne({name : genId}, populate)
 }
 
 async function readGenerator(genId, populate) {

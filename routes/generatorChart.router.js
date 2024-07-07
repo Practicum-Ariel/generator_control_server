@@ -56,7 +56,7 @@ router.get('/all-gen', async(req,res) => {
 
 router.get('/:genId/', async(req,res) =>{
     try{
-        const generator = await generatorService.getOneGenerator(req.params.genId)
+        const generator = await generatorService.getOneGenerator(req.params.genId, true)
         res.send(generator);
     }
     catch(error){

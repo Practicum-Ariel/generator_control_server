@@ -4,6 +4,7 @@ const {getTimeFilter,getSensorFilter,getScenarioId} = require('../helpers/filter
 
 //for 2 date need to get time = between, and vars min and max. add another case in time
 async function getData(generator_id, time, sensor_type, anomalya = 'normal') {
+
     const scenarioId = getScenarioId(time, sensor_type, anomalya) // TEMP (delete at the end)
 
     time = getTimeFilter(time);
@@ -15,6 +16,7 @@ async function getData(generator_id, time, sensor_type, anomalya = 'normal') {
     const genDataController = await getController(generator_id);
     return await genDataController.read(filter, selectString);
 }
+
 async function getDataForChart(generator_id, time, sensor_type, anomalya) {
     let result = await getData(generator_id, time, sensor_type, anomalya)
     let data = {}
@@ -37,5 +39,10 @@ async function getDataForChart(generator_id, time, sensor_type, anomalya) {
 }
 
 
+async function getLastData(generator_id) {
+    const genDataController = await getController(generator_id);
+    // console.log(await genDataController.readLast2({"scenarioId":"live.15.sound.normal"}))
+    return await genDataController.readLast2({ "scenarioId": "live.15.sound.normal" });
+}
 
-module.exports = { getData, getDataForChart };
+module.exports = { getData, getDataForChart, getLastData };

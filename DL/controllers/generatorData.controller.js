@@ -1,10 +1,10 @@
-const mongoose = require('mongoose');
-const generatorDataModel = require('../models/generatorData.model');
+const mongoose = require('mongoose')
+const generatorDataModel = require('../models/generatorData.model')
 const generatorController = require('./generator.controller')
 
 class GeneratorDataController {
 
-    #model;
+    #model
     #genDataName
 
     constructor(genId) {
@@ -28,14 +28,27 @@ class GeneratorDataController {
     async readAll(filter, proj) {
         return await this.#model.find(filter, proj)
     }
+    async readWithSkip(filter, proj, limit = 1000, skip = 0) {
+        return await this.#model.find(filter, proj).skip(skip).limit(limit) //.lean();
+    }
 
     async readOne(filter, select) {
         return await this.#model.findOne(filter, select)
     }
 
-    async readLast( limit = 1) {
-        let last= this.#model.find().sort({ date: -1 }).limit(limit)
+    async readLast(limit = 1) {
+        let last = this.#model.find().sort({ date: -1 }).limit(limit)
         return await last.exec()
+    }
+    
+    async readLastOne() {
+        let last = await this.readLast(1)
+        return last[0]
+    }
+
+    async readLast2(filter) {
+        const last = await this.#model.findOne(filter).sort({ _id: -1 })
+        return last
     }
 
 }

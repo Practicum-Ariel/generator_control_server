@@ -44,8 +44,9 @@ router.get('/:genId/sensors/', async(req,res) =>{
 
 router.get('/all-gen', async(req,res) => {
     try {
-        const {status} = req.query
-        const generators = await generatorService.getGeneratorsWithLastData({status})
+        const generators = await generatorService.getAllGenerators()
+        // const {status} = req.query
+        // const generators = await generatorService.getGeneratorsWithLastData({status})
         res.send(generators)
     } catch (err) {
         console.log(err);

@@ -24,7 +24,7 @@ async function _getFullGenerators(genId) {
 }
 
 async function getAllGenerators(filter = {}) {
-    let generators = await generatorController.read({ ...filter }, 'name location status lastUpdate') // the string is for select fields from the object
+    let generators = await generatorController.read({ ...filter }, 'name location status lastUpdate insights') // the string is for select fields from the object
 
     generators = generators.map(async (gen) => {
         let controller = await generatorDataController(gen._id)
@@ -79,4 +79,15 @@ async function doPagination(rows, pageNum, ref) {
     return dataForPage
 }
 
-module.exports = { getGeneratorData, getAllGenerators, readGenerator, doPagination, getOneGenerator }
+async function addLastUpdateToAllGen() {
+    
+    let allGen = await generatorController.read()
+    let startDate = new Date(2024, 6, 22);
+    let endDate = new Date();
+    for(gen of allGen){
+        await generatorController.update(gen._id, {lastUpdate : (new Date(startDate.getTime() + Math.random() * (endDate.getTime() - startDate.getTime())))})
+    }
+    return true
+}
+
+module.exports = { getGeneratorData, getAllGenerators, readGenerator, doPagination, getOneGenerator, addLastUpdateToAllGen }

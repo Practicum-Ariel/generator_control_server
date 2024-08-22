@@ -77,4 +77,14 @@ router.get('/pagination', async (req, res) => {
     }   
 });
 
+router.put('/updateGenerators', async (req, res) => {
+    try {
+        const data = await generatorService.addLastUpdateToAllGen();
+        res.send(data);
+    } catch (err) {
+        console.log(err)
+        res.status(err.code || 500).send(err.message);
+    }   
+})
+
 module.exports = router;

@@ -23,8 +23,8 @@ const generatorSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ['available', 'repair', 'off'],
-        default: 'available'
+        enum: ['proper', 'anomaly', 'error', 'disconnected'],
+        default: 'proper'
     },
     insights: [{ type: mongoose.Schema.Types.ObjectId, ref: 'insight' }],
     lastUpdate: {

@@ -9,7 +9,7 @@ async function read(filter, select) {
 }
 async function readOne(filter, populate) {
   let data = generatorModel.findOne(filter);
-  if (populate) data = data.populate({ path: 'sensorsIds' });
+  if (populate) data = data.populate({ path: 'sensorsIds' }).populate({ path: 'insights' });
   data = await data.exec();
   return data?.toObject();
 }

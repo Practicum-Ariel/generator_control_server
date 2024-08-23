@@ -12,6 +12,7 @@ const socketFn = (socket) => {
         const interval = setInterval(async () => {
             try {
                 const fetchedData = await chartService.getLastData(data);
+                // console.log(fetchedData);
                 socket.emit('get-data', { message: fetchedData });
                 console.log("send");
             } catch (error) {

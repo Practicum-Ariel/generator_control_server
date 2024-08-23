@@ -57,7 +57,7 @@ router.get('/all-gen', async(req,res) => {
 
 router.get('/:genId/', async(req,res) =>{
     try{
-        const generator = await generatorService.getOneGenerator(req.params.genId)
+        const generator = await generatorService.getOneGenerator(req.params.genId, true)
         res.send(generator);
     }
     catch(error){
@@ -76,5 +76,15 @@ router.get('/pagination', async (req, res) => {
         res.status(err.code || 500).send(err.message);
     }   
 });
+
+router.put('/updateGenerators', async (req, res) => {
+    try {
+        const data = await generatorService.addLastUpdateToAllGen();
+        res.send(data);
+    } catch (err) {
+        console.log(err)
+        res.status(err.code || 500).send(err.message);
+    }   
+})
 
 module.exports = router;

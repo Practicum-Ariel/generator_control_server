@@ -1,5 +1,7 @@
 const mongoose = require('mongoose')
 const sensor = require('./sensor.model')
+const Insight = require('./insights.model')
+
 const generatorSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -21,12 +23,10 @@ const generatorSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ['available', 'repair', 'off'],
-        default: 'available'
+        enum: ['proper', 'anomaly', 'error', 'disconnected'],
+        default: 'proper'
     },
-    insights: {
-        type: Array,
-    },
+    insights: [{ type: mongoose.Schema.Types.ObjectId, ref: 'insight' }],
     lastUpdate: {
         type: Date,
     },

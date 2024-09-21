@@ -7,6 +7,7 @@ const aiApiServer = require('./insightsAiServer.router')
 
 router.use('/test', require('./test.router'))
 router.use('/generator', require('./generatorChart.router'))
+router.use('/alert', require('./alert.router'))
 router.use('/test-gen', testGenRouter)
 router.use('/visit', require('./techVisit.router'));
 router.use('/technician', require('./technician.router'))
